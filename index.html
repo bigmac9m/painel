@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso ao Painel</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        #registro, #login, #painel {
+            display: none;
+        }
+        input, button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #painel {
+            padding: 20px;
+            border: 2px solid black;
+            width: 300px;
+            margin: 20px auto;
+            background-color: #f0f0f0;
+        }
+        .top-right {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="logout" class="top-right" onclick="fazerLogout()">Logout</button>
+    <button id="loginButton" class="top-right" onclick="irParaLogin()">Login</button>
+
+    <!-- Tela de Senha Inicial -->
+    <div id="senhaInicial" class="container">
+        <h2>Digite a senha para continuar</h2>
+        <input type="password" id="senha" placeholder="Digite a senha">
+        <button onclick="verificarSenha()">Entrar</button>
+        <p id="mensagemSenha" style="color: red;"></p>
+    </div>
+
+    <!-- Tela de Registro -->
+    <div id="registro" class="container">
+        <h2>Registre-se</h2>
+        <input type="text" id="novoUsuario" placeholder="Escolha um usuário">
+        <input type="password" id="novaSenha" placeholder="Escolha uma senha">
+        <button onclick="registrarUsuario()">Registrar</button>
+        <p id="mensagemRegistro" style="color: green;"></p>
+    </div>
+
+    <!-- Tela de Login -->
+    <div id="login" class="container">
+        <h2>Faça login</h2>
+        <input type="text" id="usuario" placeholder="Usuário">
+        <input type="password" id="senhaLogin" placeholder="Senha">
+        <button onclick="verificarLogin()">Login</button>
+        <p id="mensagemLogin" style="color: red;"></p>
+    </div>
+
+    <!-- Painel de Funções -->
+    <div id="painel">
+        <h3>Painel de Funções</h3>
+        <button onclick="irParaLink()">Função 1</button> <!-- Botão para redirecionar para o link -->
+        <button>Função 2</button>
+        <button>Função 3</button>
+    </div>
+
+    <script>
+        let usuarios = {}; // Armazena os usuários cadastrados (temporário)
+
+        function verificarSenha() {
+            let senhaDigitada = document.getElementById("senha").value;
+            let mensagemSenha = document.getElementById("mensagemSenha");
+
+            if (senhaDigitada === "juninhopernambucano") {
+                document.getElementById("senhaInicial").style.display = "none";
+                document.getElementById("registro").style.display = "block";
+                document.getElementById("loginButton").style.display = "block"; // Exibe botão "Login"
+            } else {
+                mensagemSenha.textContent = "Senha incorreta! Tente novamente.";
+            }
+        }
+
+        function registrarUsuario() {
+            let novoUsuario = document.getElementById("novoUsuario").value;
+            let novaSenha = document.getElementById("novaSenha").value;
+            let mensagemRegistro = document.getElementById("mensagemRegistro");
+
+            if (novoUsuario === "" || novaSenha === "") {
+                mensagemRegistro.textContent = "Preencha todos os campos!";
+                mensagemRegistro.style.color = "red";
+                return;
+            }
+
+            usuarios[novoUsuario] = novaSenha; // Armazena usuário
+            mensagemRegistro.textContent = "Registrado com sucesso! Agora faça login.";
+            mensagemRegistro.style.color = "green";
+
+            setTimeout(() => {
+                irParaLogin(); // Vai para a tela de login automaticamente
+            }, 2000);
+        }
+
+        function irParaLogin() {
+            document.getElementById("registro").style.display = "none";
+            document.getElementById("login").style.display = "block";
+            document.getElementById("loginButton").style.display = "none"; // Esconde botão "Login"
+        }
+
+        function verificarLogin() {
+            let usuario = document.getElementById("usuario").value;
+            let senhaLogin = document.getElementById("senhaLogin").value;
+            let mensagemLogin = document.getElementById("mensagemLogin");
+
+            if (usuarios[usuario] && usuarios[usuario] === senhaLogin) {
+                document.getElementById("login").style.display = "none";
+                document.getElementById("painel").style.display = "block";
+                document.getElementById("logout").style.display = "block"; // Mostra botão de logout
+            } else {
+                mensagemLogin.textContent = "Usuário ou senha incorretos!";
+            }
+        }
+
+        function fazerLogout() {
+            document.getElementById("painel").style.display = "none";
+            document.getElementById("logout").style.display = "none";
+            document.getElementById("senhaInicial").style.display = "block";
+        }
+
+        function irParaLink() {
+            // Substitua o URL abaixo pelo link para o qual você quer redirecionar
+            window.location.href = "https://www.xvideos.com"; // Redireciona para o link do xvideos
+        }
+    </script>
+
+</body>
+</html>
